@@ -72,15 +72,18 @@ class _NavigatorWidgetState extends State<NavigatorWidget> {
 }
 
 class CloseButtonWidget extends StatelessWidget {
+  final Widget? icon;
+
   const CloseButtonWidget({
     Key? key,
+    this.icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () => context.read<NavigatorWidgetModel>().perentNavigatorPop(context),
-      icon: const Icon(Icons.close),
+      icon: icon ?? const Icon(Icons.close),
     );
   }
 }
