@@ -8,12 +8,15 @@ import 'NavigatorWidget.dart';
 class NavigatorWidget extends StatefulWidget {
   final String initialRoute;
 
+  final GlobalKey<NavigatorState>? navigatorKey;
+
   final Route<dynamic>? Function(RouteSettings) onGenerateRoute;
 
   const NavigatorWidget({
     Key? key,
     required this.onGenerateRoute,
     required this.initialRoute,
+    this.navigatorKey,
   }) : super(key: key);
 
   @override
@@ -21,7 +24,14 @@ class NavigatorWidget extends StatefulWidget {
 }
 
 class _NavigatorWidgetState extends State<NavigatorWidget> {
-  final key = GlobalKey<NavigatorState>();
+  late final GlobalKey<NavigatorState> key;
+
+  @override
+  void initState() {
+    key = widget.navigatorKey ?? GlobalKey<NavigatorState>();
+    super.initState();
+  }
+
   // late final NavigatorProvider navigatorProvider;
 
   // @override
