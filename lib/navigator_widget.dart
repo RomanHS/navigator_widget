@@ -12,10 +12,13 @@ class NavigatorWidget extends StatefulWidget {
 
   final Route<dynamic>? Function(RouteSettings) onGenerateRoute;
 
+  final Future<bool> Function()? onWillPop;
+
   const NavigatorWidget({
     Key? key,
     required this.onGenerateRoute,
     required this.initialRoute,
+    this.onWillPop,
     this.navigatorKey,
   }) : super(key: key);
 
@@ -58,7 +61,21 @@ class _NavigatorWidgetState extends State<NavigatorWidget> {
       ///
       child: WillPopScope(
         ///
-        onWillPop: () async => !(await key.currentState!.maybePop()),
+        onWillPop: () async {
+          final Future<bool> Function()? _onWillPop = widget.onWillPop;
+
+          if (_onWillPop == null) {
+            return !(await key.currentState!.maybePop());
+          }
+
+          final bool res = await _onWillPop();
+
+          if (res == true) {
+            return !(await key.currentState!.maybePop());
+          }
+
+          return false;
+        },
 
         ///
         child: Navigator(
