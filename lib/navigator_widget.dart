@@ -54,6 +54,7 @@ class _NavigatorWidgetState extends State<NavigatorWidget> {
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => NavigatorWidgetModel(
+        onWillPop: widget.onWillPop,
         navigatorStateKey: key,
         perentNavigatorStateKey: context.read<NavigatorWidgetModel?>()?.navigatorStateKey,
       ),
