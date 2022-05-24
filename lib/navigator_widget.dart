@@ -63,19 +63,15 @@ class _NavigatorWidgetState extends State<NavigatorWidget> {
       child: WillPopScope(
         ///
         onWillPop: () async {
+          final bool res = !(await key.currentState!.maybePop());
+
+          if (res == false) return false;
+
           final Future<bool> Function()? _onWillPop = widget.onWillPop;
 
-          if (_onWillPop == null) {
-            return !(await key.currentState!.maybePop());
-          }
+          if (_onWillPop == null) return res;
 
-          final bool res = await _onWillPop();
-
-          if (res == true) {
-            return !(await key.currentState!.maybePop());
-          }
-
-          return false;
+          return _onWillPop();
         },
 
         ///
